@@ -14,7 +14,7 @@ model User {
   userId  Int @id @default(autoincrement())
   username  String
   password  String
-  carts Cart[]
+  carts Cart?
 }
 
 model Cart {
@@ -32,6 +32,6 @@ model Book{
   author String
   thumbnailUrl String
   price Int
-  isbn String
+  isbn String @unique
   synopsis String?
 }
