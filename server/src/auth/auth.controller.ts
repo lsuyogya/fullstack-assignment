@@ -8,10 +8,10 @@ export class AuthController {
   @Post('login') async login(): Promise<string> {
     return 'test';
   }
+
   @Post('register') register(
     @Body() body: { username: string; password: string },
-  ): string {
-    this.authService.register(body);
-    return 'User Created';
+  ): Promise<string> {
+    return this.authService.register(body);
   }
 }
