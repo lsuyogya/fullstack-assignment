@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   async register({
     username,
@@ -31,9 +32,12 @@ export class AuthService {
     const userInDb = await this.prisma.user.findFirst({
       where: { username: username },
     });
-    if (userInDb == null) return Promise.reject('User does not exist');
+    if (userInDb == null) throw new UnauthorizedException();
     if (userInDb.password === password) {
-      // return jwt
+      const payload = { sub: userInDb.userId, username: userInDb.username };
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
     }
   }
 }
