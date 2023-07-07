@@ -85,11 +85,9 @@ const loginForm = () => {
 			</Stack>
 			<Box>
 				Don't have an account?{' '}
-				<RouterLink to={'/register'}>
-					<Link color='red.500' href='#'>
-						Sign Up
-					</Link>
-				</RouterLink>
+				<Link color='red.500' href='/register'>
+					Sign Up
+				</Link>
 			</Box>
 		</Flex>
 	);
