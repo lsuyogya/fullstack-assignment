@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 
@@ -16,5 +16,10 @@ export class AuthController {
     @Body() body: { username: string; password: string },
   ): Promise<string> {
     return this.authService.register(body);
+  }
+  @UseGuards(AuthGuard)
+  @Get('checkToken')
+  checkToken() {
+    return 'Token is valid';
   }
 }
