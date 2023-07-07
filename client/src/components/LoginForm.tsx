@@ -19,7 +19,21 @@ const loginForm = () => {
 		setLoginCreds({ ...loginCreds, [e.target.id]: e.target.value });
 	}
 
-	function handleLogin(e: React.FormEvent<HTMLFormElement>) {}
+	async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		const res = await fetch('http://localhost:3000/auth/login', {
+			method: 'POST',
+			body: JSON.stringify(loginCreds),
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+		}).catch(() => {
+			alert('Login Failed');
+		});
+		//@ts-ignore//;
+		const data = await res.json();
+		localStorage.setItem('jwt', data.access_token);
+	}
 
 	return (
 		<Flex
